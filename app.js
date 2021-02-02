@@ -1,31 +1,38 @@
-var app = require('express')();
+var express = require('express');
 const bodyParser = require('body-parser');
-// var mongoose = require('mongoose');
+const {Book,check,saver} = require('./models/book');
+var mongoose = require('mongoose');
 
-// mongoose.connect('mongodb://mongodb:27017/sample', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://mongodb:27017/sample', { useNewUrlParser: true, useUnifiedTopology: true });
 
+var app = express();
 
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// var db = mongoose.connection;
+var db = mongoose.connection;
 // db.on('error', console.error.bind(console, 'connection error:'));
-// db.once('open', function () {
-//    // we're connected!
-//    console.log('Connected to mongo db');
-// });
 
-// var personSchema = mongoose.Schema({
-//    name: String,
-//    pass: String
-// });
-// var Person = mongoose.model("Person", personSchema);
+db.once('open', function () {
+   console.log('Connected to mongo db');
+}).on('error', console.error.bind(console, 'Connection error:'));
 
-var routes = require('./route/index');
+app.get('/', function(req, res){
+    res.send('ok');
+    var book = new Book({
+        title: 'sample book',
+        author: 'SG',
+        summary: 'checking the models',
+        isbn: '0000000',
+        genre: 'Fantasy'
+    });
 
-app.use('/', routes);
+    // console.log(book);  
+    check(book);
+    saver
+});
 
-app.listen(3000, function(req, res){
-    console.log('listening...')
+app.listen(3000, function(){
+    console.log('listening');
 });
