@@ -1,6 +1,7 @@
 var express = require('express');
 const bodyParser = require('body-parser');
 const {Book,check,saver} = require('./models/book');
+const Author = require('./models/author');
 var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://mongodb:27017/sample', { useNewUrlParser: true, useUnifiedTopology: true });
@@ -18,19 +19,18 @@ db.once('open', function () {
    console.log('Connected to mongo db');
 }).on('error', console.error.bind(console, 'Connection error:'));
 
+
+var auth = new Author({
+    name: 'SG',
+    date_of_birth : '2002-12-09',
+    book_id: 'sample',
+    date_of_death: '2020-02-04'
+});
+auth.save();
+console.log(auth.lifespan, auth.url);
+
 app.get('/', function(req, res){
     res.send('ok');
-    var book = new Book({
-        title: 'sample book',
-        author: 'SG',
-        summary: 'checking the models',
-        isbn: '0000000',
-        genre: 'Fantasy'
-    });
-
-    // console.log(book);  
-    check(book);
-    saver
 });
 
 app.listen(3000, function(){
