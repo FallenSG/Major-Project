@@ -6,8 +6,9 @@ var AuthorSchema = new Schema(
   {
     name: { type: String, required: true, maxlength: 100 },
     date_of_birth: { type: Date },
-    book_id: {},
-    date_of_death: { type: Date}
+    book_id: [{type: Schema.Types.ObjectId, ref: 'Book', required: true }],
+    about: {},
+    socialMediaHandles: {}
   }
 );
 
@@ -35,3 +36,5 @@ AuthorSchema
 //Export model
 var Author = mongoose.model('Author', AuthorSchema);
 module.exports = Author;
+
+

@@ -10,9 +10,9 @@ var BookSchema = new Schema(
 		isbn: { type: String, required: true },
 		genre_id: [{ type: Schema.Types.ObjectId, ref: 'Genre' }],
 		doc: {},
-		img: {},
-		review_id: {},
-		price: {}
+		img: { required: true },
+		review_id: [{ type: Schema.Types.ObjectId, ref: 'Review' }],
+		price: { type: Number, required: true }
 	}
 );
 
@@ -29,3 +29,5 @@ function saver() {
 
 //   //Export model
 module.exports = { Book, check, saver };
+
+
